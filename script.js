@@ -24,15 +24,15 @@ loader.load('galaxy.jpg.jpg', texture => {
 // Planets config
 const planetData = [
   { name: 'sun', size: 10, texture: 'sun.jpg.jpg', distance: 0 },
-  { name: 'mercury', size: 1, texture: 'mercury.jpg.jpg', distance: 15 },
-  { name: 'venus', size: 1.2, texture: 'venus.jpg.jpg', distance: 20 },
-  { name: 'earth', size: 1.3, texture: 'earth.jpg.jpg', distance: 26 },
-  { name: 'mars', size: 1.1, texture: 'mars.jpg.jpg', distance: 32 },
-  { name: 'jupiter', size: 3, texture: 'jupiter.jpg.jpg', distance: 40 },
-  { name: 'saturn', size: 2.5, texture: 'saturn.jpg.jpg', distance: 50 },
-  { name: 'uranus', size: 2.2, texture: 'uranus.jpg.jpg', distance: 58 },
-  { name: 'neptune', size: 2.1, texture: 'neptune.jpg.jpg', distance: 66 },
-  { name: 'pluto', size: 0.6, texture: 'pluto.jpg.jpg', distance: 72 },
+  { name: 'mercury', size: 1, texture: 'mercury.jpg .jpg', distance: 15 },
+  { name: 'venus', size: 1.2, texture: 'venus.jpg .jpg', distance: 20 },
+  { name: 'earth', size: 1.3, texture: 'earth.jpg .jpg', distance: 26 },
+  { name: 'mars', size: 1.1, texture: 'mars.jpg .jpg', distance: 32 },
+  { name: 'jupiter', size: 3, texture: 'jupiter.jpg .jpg', distance: 40 },
+  { name: 'saturn', size: 2.5, texture: 'saturn.jpg .jpg', distance: 50 },
+  { name: 'uranus', size: 2.2, texture: 'uranus.jpg .jpg', distance: 58 },
+  { name: 'neptune', size: 2.1, texture: 'neptune.jpg .jpg', distance: 66 },
+  { name: 'pluto', size: 0.6, texture: 'pluto.jpg .jpg', distance: 72 },
 ];
 
 const planets = [];

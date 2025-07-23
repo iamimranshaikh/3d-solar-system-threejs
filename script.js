@@ -1,39 +1,62 @@
+const canvas = document.getElementById("solarCanvas");
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("solarCanvas") });
+camera.position.z = 100;
+
+const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+// Controls
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-camera.position.set(0, 20, 50);
-controls.update();
 
-const ambientLight = new THREE.AmbientLight(0x404040);
-scene.add(ambientLight);
-
-const pointLight = new THREE.PointLight(0xffffff, 2, 300);
-pointLight.position.set(0, 0, 0);
+// Lights
+scene.add(new THREE.AmbientLight(0x333333));
+const pointLight = new THREE.PointLight(0xffffff, 2);
 scene.add(pointLight);
 
-// Sun
-const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
-const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
-const sun = new THREE.Mesh(sunGeometry, sunMaterial);
-scene.add(sun);
+// Background
+const loader = new THREE.TextureLoader();
+loader.load('galaxy.jpg', texture => {
+  scene.background = texture;
+});
 
-// Earth
-const earthGeometry = new THREE.SphereGeometry(2, 32, 32);
-const earthMaterial = new THREE.MeshStandardMaterial({ color: 0x3399ff });
-const earth = new THREE.Mesh(earthGeometry, earthMaterial);
-scene.add(earth);
+// Planets config
+const planetData = [
+  { name: 'sun', size: 10, texture: 'sun.jpg', distance: 0 },
+  { name: 'mercury', size: 1, texture: 'mercury.jpg', distance: 15 },
+  { name: 'venus', size: 1.2, texture: 'venus.jpg', distance: 20 },
+  { name: 'earth', size: 1.3, texture: 'earth.jpg', distance: 26 },
+  { name: 'mars', size: 1.1, texture: 'mars.jpg', distance: 32 },
+  { name: 'jupiter', size: 3, texture: 'jupiter.jpg', distance: 40 },
+  { name: 'saturn', size: 2.5, texture: 'saturn.jpg', distance: 50 },
+  { name: 'uranus', size: 2.2, texture: 'uranus.jpg', distance: 58 },
+  { name: 'neptune', size: 2.1, texture: 'neptune.jpg', distance: 66 },
+  { name: 'pluto', size: 0.6, texture: 'pluto.jpg', distance: 72 },
+];
 
-// Animate orbit
-let angle = 0;
+const planets = [];
+planetData.forEach((planet, i) => {
+  loader.load(planet.texture, texture => {
+    const geo = new THREE.SphereGeometry(planet.size, 32, 32);
+    const mat = new THREE.MeshStandardMaterial({ map: texture });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.name = planet.name;
+    scene.add(mesh);
+    planets.push({ mesh, distance: planet.distance, speed: 0.01 + i * 0.001 });
+  });
+});
+
+// Animate
 function animate() {
   requestAnimationFrame(animate);
-  angle += 0.01;
-  earth.position.x = Math.cos(angle) * 20;
-  earth.position.z = Math.sin(angle) * 20;
+  planets.forEach((planetObj, i) => {
+    const angle = Date.now() * 0.0001 * planetObj.speed * 500;
+    if (planetObj.distance > 0) {
+      planetObj.mesh.position.x = Math.cos(angle) * planetObj.distance;
+      planetObj.mesh.position.z = Math.sin(angle) * planetObj.distance;
+    }
+  });
   controls.update();
   renderer.render(scene, camera);
 }
